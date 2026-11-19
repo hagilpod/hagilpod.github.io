@@ -229,8 +229,8 @@ details.help summary { cursor: pointer; font-size: 13.5px; color: var(--accent);
         <p class="lead">1쪽 반표제지, 2쪽 판권, 3쪽 속표지는 교보 샘플 순서대로 자동으로 들어갑니다.</p>
         <label class="f" for="b-title">책 제목</label>
         <input type="text" id="b-title" data-k="title">
-        <label class="f" for="b-sub">부제 <small>(없으면 비워 두세요)</small></label>
-        <input type="text" id="b-sub" data-k="subtitle">
+        <label class="f" for="b-sub">부제 <small>(하길교회 책은 모두 같은 부제로 고정됩니다)</small></label>
+        <input type="text" id="b-sub" value="하길교회 말씀 묵상에세이" readonly aria-readonly="true" tabindex="-1" style="background:var(--soft,#F3F3EF);color:var(--muted);cursor:not-allowed">
         <div class="row2">
           <div><label class="f" for="b-author">지은이</label><input type="text" id="b-author" data-k="author"></div>
           <div><label class="f" for="b-date">발행일 <small>(판권에 들어감)</small></label><input type="text" id="b-date" data-k="date"></div>
@@ -565,7 +565,7 @@ details.help summary { cursor: pointer; font-size: 13.5px; color: var(--accent);
 <script>// 예시 나눔글: 성경 본문 안에서만 묵상한 글. 구절은 개역한글판.
 const EXAMPLE_BOOK = {
   title: "말씀 앞에 머문 아침",
-  subtitle: "날마다 말씀을 묵상하며 쓴 나눔글",
+  subtitle: "하길교회 말씀 묵상에세이",
   author: "홍길동",
   intro: [
     "이 책은 날마다 주어진 성경 본문을 읽고, 그 말씀 앞에서 떠오른 다짐과 고백을 적은 나눔글을 모은 것입니다.",
@@ -2579,10 +2579,12 @@ function exampleState(prev) {
   s.entries = E.entries.map(e => ({ part: e.part || '', title: e.title, ref: e.ref, verse: e.verse, body: e.body.join('\n') }));
   return s;
 }
+const FIXED_SUB = '하길교회 말씀 묵상에세이'; // 사용자 지시 2026-11-19: 부제 고정, 수정 불가
 let state;
 try { state = JSON.parse(localStorage.getItem(KEY) || 'null'); } catch (e) { state = null; }
 if (!state || !state.book) state = exampleState(null);
 if (!state.cover) state.cover = blankCover();
+state.book.subtitle = FIXED_SUB;
 if (!THEMES[state.theme]) state.theme = 'classic';
 const save = () => { try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {} };
 
@@ -2808,6 +2810,7 @@ $('#helpq').innerHTML = WRITING_HELP.map(q => `<li>${q}</li>`).join('');
 let lay = null, timer = null;
 function changed(now) { save(); clearTimeout(timer); timer = setTimeout(render, now ? 30 : 700); }
 function render() {
+  if (state && state.book) state.book.subtitle = FIXED_SUB;
   // 고른 디자인의 수채 삽화를 먼저 불러온다(처음 한 번만, 선택한 것만)
   const need = [state.theme, state.cover && THEMES[state.cover.design] ? state.cover.design : null].filter(t => t && ILLUS[t] === undefined && !state.noIllus);
   if (need.length) { Promise.all(need.map(ensureIllus)).then(render); return; }
@@ -3173,7 +3176,7 @@ ${spec}`],
 `「${t}」를 다른 묵상집과 차별되는 책으로 만들고 싶어. 원고를 읽고 아이디어를 줘.
 - 이 책을 읽을 사람은 누구이고, 그 사람에게 가장 와닿을 책의 약속(한 줄)은 무엇인지
 - 쪽수를 크게 늘리지 않고 더할 수 있는 구성: 글마다 묵상 질문, 짧은 기도문, 직접 적어 보는 칸, 영상·찬양 QR, 부 시작 쪽의 한 문장 등 중에서 이 책에 맞는 것과 넣을 위치
-- 제목과 부제 후보 5개씩(지금 제목을 살리는 안도 포함)
+- 제목 후보 5개(지금 제목을 살리는 안도 포함). 부제는 「하길교회 말씀 묵상에세이」로 고정이니 바꾸지 말 것
 
 ${spec}`],
     ['7. 교보 등록 글 쓰기', '책 소개, 저자 소개, 검색어를 쓸 때',
