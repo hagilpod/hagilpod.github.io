@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>나눔글로 책 만들기</title>
+<title>하길교회 POD 출판</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700;800&family=Nanum+Myeongjo:wght@400;700;800&display=swap">
@@ -194,7 +194,7 @@ details.help summary { cursor: pointer; font-size: 13.5px; color: var(--accent);
 <div class="wrap">
   <header class="top">
     <div>
-      <h1>나눔글로 책 만들기</h1>
+      <h1>하길교회 POD 출판</h1>
       <p>묵상 나눔글을 넣으면 교보문고 퍼플(POD) 양식에 맞춘 내지 한글 파일과 PDF, 썸네일이 만들어집니다.</p>
     </div>
     <div class="topr"><button class="btn small ghost" type="button" id="bigbtn" aria-pressed="false">글씨 크게</button><span class="stamp" id="ver">판 11 · 2026년 11월</span></div>
@@ -3193,7 +3193,7 @@ function drawAiGuide() {
 }
 function aiBriefText() {
   const b = state.book, out = [];
-  out.push(`「${b.title || '제목'}」 AI용 책 설명서`, '(나눔글로 책 만들기 앱에서 만든 파일입니다. 이 설명서와 내지 PDF, 표지 PPT를 함께 AI에게 주세요.)', '');
+  out.push(`「${b.title || '제목'}」 AI용 책 설명서`, '(하길교회 POD 출판 앱에서 만든 파일입니다. 이 설명서와 내지 PDF, 표지 PPT를 함께 AI에게 주세요.)', '');
   out.push('■ 내 책 규격', bookSpecText(), '');
   out.push('■ 꼭 지킬 조건', ...AI_RULES.map((r, i) => `${i + 1}. ${r}`), '');
   const intro = _ls(b.intro); if (intro.length) out.push('■ 책 소개', ...intro, '');
